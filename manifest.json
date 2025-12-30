@@ -1,0 +1,9 @@
+[
+  {
+    "value": "movree-providers",
+    "display_name": "Server movree",
+    "version": "1.2.0",
+    "type": "global",
+    "icon": "https://link-gambar-icon.png"
+  }
+]
