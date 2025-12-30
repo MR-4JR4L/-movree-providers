@@ -1,7 +1,17 @@
+// meta.js
 async function meta(link) {
+  try {
+    const response = await fetch(link);
+    const html = await response.text();
+    const $ = cheerio.load(html);
+    
     return {
-        title: "Judul Film",
-        plot: "Sinopsis film...",
-        cast: ["Aktor 1", "Aktor 2"],
-        episodes: [] // Jika serial};
+      title: $('.entry-title').text().trim(),
+      plot: $('.entry-content p').first().text().trim(),
+      cast: [],
+      episodes: [] 
+    };
+  } catch (error) {
+    return {};
+  }
 }
