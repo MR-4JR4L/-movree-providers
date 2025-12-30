@@ -1,12 +1,24 @@
-async function catalog(filter, page) {
-    // 1. Ambil data dari website film target menggunakan fetch
-    // 2. Olah datanya (Parsing HTML)
-    // 3. Kembalikan array berisi objek film
-    return [
-        {
-            title: "Judul Film",
-            link: "https://website-film.com/film-a",
-            poster: "https://gambar.com/poster.jpg"
-        }
-    ];
+// catalog.js
+async function catalog(filter, page = 1) {
+  const baseUrl = 'https://vegamovies.hot';
+  const url = page === 1 ? baseUrl : `${baseUrl}/page/${page}/`;
+  
+  try {
+    const response = await fetch(url);
+    const html = await response.text();
+    const $ = cheerio.load(html); // Asumsi cheerio tersedia global atau di-inject
+    
+    const results = [];
+    $('.blog-items .blog-item').each((i, el) => {
+      results.push({
+        title: $(el).find('.entry-title').text().trim(),
+        link: $(el).find('a').attr('href'),
+        poster: $(el).find('img').attr('src'),
+      });
+    });
+    
+    return results;
+  } catch (error) {
+    return [];
+  }
 }
